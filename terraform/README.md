@@ -11,7 +11,7 @@ terraform ouput e veja o nome do cluster, no caso desse projeto é training_eks_
 
 aws eks --region us-east-1 update-kubeconfig --name training_eks_cluster --profile zup
 
-Added new context arn:aws:eks:us-east-1:746213696263:cluster/training_eks_cluster to /Users/normandesjr/.kube/config
+Added new context arn:aws:eks:us-east-1:....:cluster/training_eks_cluster to /Users/normandesjr/.kube/config
 
 Rode o terraform apply mais uma vez, agora vai funcionar.
 
