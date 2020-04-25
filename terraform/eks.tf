@@ -1,5 +1,6 @@
 module "eks" {
   source       = "terraform-aws-modules/eks/aws"
+  version      = ">= 1.11.1"
   cluster_name = var.cluster_name
   subnets      = module.vpc.private_subnets
 
@@ -8,6 +9,8 @@ module "eks" {
   }
 
   vpc_id = module.vpc.vpc_id
+
+  config_output_path = pathexpand("~/.kube/config")
 
   kubeconfig_aws_authenticator_env_variables = {
     AWS_PROFILE = "zup"
@@ -29,14 +32,6 @@ module "eks" {
       asg_desired_capacity          = 1
     },
   ]
-}
-
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
-}
-
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
 }
 
 resource "local_file" "config_map" {

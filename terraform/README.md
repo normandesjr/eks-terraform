@@ -1,4 +1,9 @@
-Ao rodar pela primeira vez teremos um erro no module.eks.kubernetes_config_map.aws_auth
+
+Esquece o comentário abaixo, agora funcionou depois que passei a usar o auth token!
+
+Não precisa fazer nada disso abaixo!
+
+<!-- Ao rodar pela primeira vez teremos um erro no module.eks.kubernetes_config_map.aws_auth
 
 Aí faça:
 
@@ -17,4 +22,4 @@ configmap/aws-auth configured
 
 Problema 1: Como fazer rodar e funcionar de 1ª o Terraform?
 Problema 2: Como tirar esse warning do kubectl apply do config_map_aws_auth?
-
+ -->
