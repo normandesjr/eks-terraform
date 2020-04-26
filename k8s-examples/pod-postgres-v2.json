@@ -17,7 +17,8 @@
             {"name": "PORT", "value": "5432"}
           ],
           "ports": [{
-            "containerPort": 5432
+            "containerPort": 5432,
+            "name": "database-port"
           }]
         }
       ]

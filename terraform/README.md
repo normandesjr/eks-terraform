@@ -1,25 +1,52 @@
 
-Esquece o comentário abaixo, agora funcionou depois que passei a usar o auth token!
+## Deploy and access Kubernetes Dashboard
 
-Não precisa fazer nada disso abaixo!
+Download and unzip the metric server:
 
-<!-- Ao rodar pela primeira vez teremos um erro no module.eks.kubernetes_config_map.aws_auth
+````
+wget -O v0.3.6.tar.gz https://codeload.github.com/kubernetes-sigs/metrics-server/tar.gz/v0.3.6 && tar -xzf v0.3.6.tar.gz
+````
 
-Aí faça:
+Deploy the metrics server:
 
-terraform ouput e veja o nome do cluster, no caso desse projeto é training_eks_cluster, então rode:
+````
+kubectl apply -f metrics-server-0.3.6/deploy/1.8+/
+````
 
-aws eks --region us-east-1 update-kubeconfig --name training_eks_cluster --profile zup
+Verify that metrics server has been deployed:
 
-Added new context arn:aws:eks:us-east-1:....:cluster/training_eks_cluster to /Users/normandesjr/.kube/config
+````
+kubectl get deployment metrics-server -n kube-system
+````
 
-Rode o terraform apply mais uma vez, agora vai funcionar.
+Deploy Kubernetes Dashboard
 
-Então rode: kubectl apply -f config_map_aws_auth.yaml
+````
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+````
 
-Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
-configmap/aws-auth configured
+Now, create a proxy server:
 
-Problema 1: Como fazer rodar e funcionar de 1ª o Terraform?
-Problema 2: Como tirar esse warning do kubectl apply do config_map_aws_auth?
- -->
+````
+kubectl proxy
+````
+
+Should be accessible:
+
+````
+http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+````
+
+Authenticate the dashboard
+
+````
+kubectl apply -f https://raw.githubusercontent.com/hashicorp/learn-terraform-provision-eks-cluster/master/kubernetes-dashboard-admin.rbac.yaml
+````
+
+Then, generate the authorization token:
+
+````
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep service-controller-token | awk '{print $1}')
+````
+
+Select "Token" on the Dashboard UI then copy and paste the entire token received.
