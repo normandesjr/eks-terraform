@@ -10,3 +10,8 @@ data:
       groups:
         - system:bootstrappers
         - system:nodes
+  mapUsers: |
+    - userarn: ${user_arn}
+      username: ${user_name}
+      groups:
+        - system:masters
