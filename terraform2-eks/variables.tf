@@ -1,6 +1,4 @@
-variable "cluster_name" {
-  default = "hibicode_eks_cluster"
-}
+variable "cluster_name" {}
 
 variable "region" {
   default = "us-east-1"

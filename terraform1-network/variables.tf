@@ -6,3 +6,6 @@ variable "user_profile" {
   default = "zup"
 }
 
+variable "cluster_name" {
+  default = "hibicode_eks_cluster"
+}
