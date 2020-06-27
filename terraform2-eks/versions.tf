@@ -5,6 +5,7 @@ terraform {
     kubernetes = "~> 1.8"
     local      = "~> 1.2"
     template   = "~> 2.1"
+    helm       = "~> 0.10"
     external   = "~> 1.2"
     tls        = "~> 2.1"
     archive    = "~> 1.2"
@@ -27,4 +28,18 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.cluster.token
   load_config_file       = false
   version                = "~> 1.11.1"
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = data.aws_eks_cluster.cluster.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+    token                  = data.aws_eks_cluster_auth.cluster.token
+    load_config_file       = false
+  }
+  
+  service_account = "tiller"
+  install_tiller  = true
+  init_helm_home  = true
+  debug           = true
 }

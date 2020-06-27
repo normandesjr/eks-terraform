@@ -10,11 +10,10 @@ data "aws_iam_policy_document" "aws_assume_role_policy_eks" {
   }
 }
 
-# TODO: Acho que nao precisa - vamos testar, se funcionar apagar.
-# resource "aws_iam_role_policy_attachment" "alb_ingress_controller_eks_attach" {
-#   policy_arn = aws_iam_policy.aws_alb_ingress_controller.arn
-#   role       = module.eks.worker_iam_role_name
-# }
+resource "aws_iam_role_policy_attachment" "alb_ingress_controller_eks_attach" {
+  policy_arn = aws_iam_policy.aws_alb_ingress_controller.arn
+  role       = module.eks.worker_iam_role_name
+}
 
 resource "aws_iam_policy" "aws_alb_ingress_controller" {
   # https://github.com/kubernetes-sigs/aws-alb-ingress-controller/blob/master/docs/examples/iam-policy.json

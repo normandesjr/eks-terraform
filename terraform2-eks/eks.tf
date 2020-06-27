@@ -12,10 +12,9 @@ module "eks" {
 
   config_output_path = pathexpand("~/.kube/config")
 
-  # TODO: Acho que nao precisa, testar sem e se funcionar apagar
-  # kubeconfig_aws_authenticator_env_variables = {
-  #   AWS_PROFILE = "zup"
-  # }
+  kubeconfig_aws_authenticator_env_variables = {
+    AWS_PROFILE = var.user_profile
+  }
 
   workers_additional_policies = [
     aws_iam_policy.aws_alb_ingress_controller.arn,
@@ -28,7 +27,7 @@ module "eks" {
       instance_type                 = "t2.small"
       additional_userdata           = "echo foo bar"
       asg_desired_capacity          = 2
-      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id, aws_security_group.database.id]
       kubelet_extra_args            = "--cloud-provider=aws"
     }
   ]
